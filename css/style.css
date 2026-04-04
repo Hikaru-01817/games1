@@ -1,0 +1,319 @@
+        /* --- CSS: デザインとレイアウト --- */
+        :root {
+            --bg-color: #050510;
+            --grid-line: #1a1a3d;
+            --neon-blue: #00f3ff;
+            --neon-pink: #ff00ff;
+            --neon-green: #00ff41;
+            --neon-yellow: #ffee00;
+            --neon-purple: #bc13fe;
+            --panel-bg: rgba(0, 0, 0, 0.6);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--neon-blue);
+            font-family: 'Orbitron', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background-image: 
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 40px 40px;
+            touch-action: none; /* スマホでのスクロール防止 */
+        }
+
+        .main-container {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            width: 100%;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .side-panel {
+            flex: 1;
+            background: var(--panel-bg);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.1);
+            backdrop-filter: blur(5px);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            min-width: 200px;
+            max-width: 300px;
+            height: 740px; 
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .left-panel { text-align: left; }
+        .right-panel { text-align: right; }
+
+        .game-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            line-height: 1;
+            margin: 0 0 10px 0;
+            color: var(--neon-pink);
+            text-shadow: 0 0 15px var(--neon-pink);
+            font-style: italic;
+            border-bottom: 2px solid var(--neon-pink);
+            padding-bottom: 15px;
+        }
+
+        .story-text {
+            font-size: 0.8rem;
+            color: #aaa;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .controls-box h3 {
+            color: var(--neon-yellow);
+            margin: 0 0 10px 0;
+            text-shadow: 0 0 5px var(--neon-yellow);
+        }
+
+        .control-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #ddd;
+        }
+
+        .key-badge {
+            display: inline-block;
+            border: 1px solid var(--neon-blue);
+            background: rgba(0, 243, 255, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: var(--neon-blue);
+            font-size: 0.8rem;
+            box-shadow: 0 0 5px var(--neon-blue);
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .sub-canvas-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #333;
+        }
+        
+        .sub-canvas-label {
+            font-size: 1rem;
+            color: var(--neon-yellow);
+            margin-bottom: 5px;
+            text-shadow: 0 0 5px var(--neon-yellow);
+        }
+
+        canvas.sub-canvas {
+            background-color: #000;
+            border: 1px solid #333;
+            box-shadow: inset 0 0 20px rgba(0,0,0,1);
+        }
+
+        .game-wrapper {
+            position: relative;
+            padding: 5px;
+            border: 2px solid var(--neon-blue);
+            border-radius: 4px;
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
+            background: #000;
+            transition: transform 0.1s;
+        }
+
+        canvas#tetris {
+            display: block;
+            background-color: #020205;
+            box-shadow: inset 0 0 50px rgba(0,0,0,1);
+        }
+
+        .status-block { margin-bottom: 20px; }
+
+        .status-label {
+            font-size: 1rem;
+            color: #888;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .status-value.level { color: var(--neon-yellow); text-shadow: 0 0 10px var(--neon-yellow); }
+        .status-value.lines { color: var(--neon-purple); text-shadow: 0 0 10px var(--neon-purple); }
+
+        #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        #overlay h2 {
+            font-size: 3rem;
+            color: var(--neon-pink);
+            text-shadow: 0 0 20px var(--neon-pink);
+            margin-bottom: 20px;
+        }
+
+        #start-btn {
+            background: transparent;
+            color: var(--neon-blue);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            padding: 10px 30px;
+            border: 2px solid var(--neon-blue);
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--neon-blue);
+            transition: all 0.2s;
+        }
+
+        #start-btn:hover {
+            background: var(--neon-blue);
+            color: #000;
+            box-shadow: 0 0 30px var(--neon-blue);
+        }
+
+        /* --- サウンドコントロール --- */
+        .sound-control {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+            cursor: pointer;
+            color: #888;
+        }
+        .sound-icon { font-size: 1.5rem; }
+        .sound-active { color: var(--neon-blue); text-shadow: 0 0 5px var(--neon-blue); }
+        
+        /* --- モバイル用コントローラー (デフォルト非表示) --- */
+        .mobile-controls {
+            display: none; /* PCでは非表示 */
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            pointer-events: none; /* エリア自体はクリック透過 */
+            z-index: 20;
+        }
+
+        .d-pad-row {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+            pointer-events: auto;
+        }
+
+        .ctrl-btn {
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 243, 255, 0.1);
+            border: 2px solid var(--neon-blue);
+            border-radius: 50%;
+            color: var(--neon-blue);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            backdrop-filter: blur(4px);
+            user-select: none;
+            touch-action: manipulation;
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+        }
+
+        .ctrl-btn:active {
+            background: var(--neon-blue);
+            color: #000;
+        }
+
+        .ctrl-btn.large {
+            width: 70px;
+            height: 70px;
+            border-color: var(--neon-pink);
+            color: var(--neon-pink);
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.2);
+        }
+        .ctrl-btn.large:active {
+            background: var(--neon-pink);
+            color: #000;
+        }
+
+        /* エフェクト用 */
+        .shake { animation: shake 0.3s cubic-bezier(.36,.07,.19,.97) both; }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+        /* レスポンシブ対応 */
+        @media (max-width: 900px) {
+            body { 
+                align-items: flex-start; /* 上寄せ */
+                overflow-y: auto; 
+            }
+            .main-container {
+                flex-direction: column;
+                align-items: center;
+                height: auto;
+                padding-bottom: 250px; /* コントローラー用スペース */
+            }
+            .side-panel {
+                width: 360px; 
+                height: auto;
+                flex: none;
+                order: 2; /* パネルは下に */
+            }
+            .game-wrapper {
+                order: 1; /* ゲーム画面優先 */
+                margin-top: 10px;
+            }
+            .left-panel { display: none; } /* スマホでは左パネル(説明)は隠す */
+            .right-panel {
+                flex-direction: row;
+                justify-content: space-around;
+                text-align: center;
+                flex-wrap: wrap;
+                padding: 10px;
+            }
+            .mobile-controls {
+                display: block; /* モバイルで表示 */
+                position: fixed;
+                bottom: 20px;
+            }
+        }
