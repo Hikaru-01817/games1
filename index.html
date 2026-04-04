@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cyber Tetris 5.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js" defer></script>
+</head>
+<body>
+
+    <div class="main-container">
+        
+        <!-- 左サイドパネル -->
+        <aside class="side-panel left-panel">
+            <div>
+                <h1 class="game-title">CYBER<br>TETRIS<br>5.0</h1>
+                <p class="story-text"><br>
+                    サウンドシステム起動。<br>
+                    タッチ操作対応。
+                </p>
+            </div>
+
+            <div class="sub-canvas-container">
+                <div class="sub-canvas-label">HOLD (C)</div>
+                <canvas id="hold" width="100" height="100" class="sub-canvas"></canvas>
+            </div>
+
+            <div class="controls-box" style="margin-top: auto;">
+                <h3>CONTROLS</h3>
+                <div class="control-item"><span>Move</span><span class="key-badge">←</span><span class="key-badge">→</span></div>
+                <div class="control-item"><span>Rotate</span><span class="key-badge">↑</span></div>
+                <div class="control-item"><span>Soft Drop</span><span class="key-badge">↓</span></div>
+                <div class="control-item"><span>Hard Drop</span><span class="key-badge">Space</span></div>
+                <div class="control-item"><span>Hold</span><span class="key-badge">C</span></div>
+            </div>
+        </aside>
+
+        <!-- 中央: ゲーム画面 -->
+        <main class="game-wrapper" id="gameWrapper">
+            <canvas id="tetris" width="360" height="720"></canvas>
+
+            <div id="overlay">
+                <h2 id="overlay-title">READY?</h2>
+                <button id="start-btn" onclick="startGame()">START GAME</button>
+                <div style="margin-top: 15px; font-size: 0.8rem; color: #888;">TAP TO ENABLE AUDIO</div>
+            </div>
+        </main>
+
+        <!-- 右サイドパネル -->
+        <aside class="side-panel right-panel">
+            <div style="display: flex; gap: 20px; justify-content: flex-end;">
+                <div class="status-block">
+                    <div class="status-label">SCORE</div>
+                    <div id="score" class="status-value">0</div>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 20px; justify-content: flex-end;">
+                <div class="status-block">
+                    <div class="status-label">LEVEL</div>
+                    <div id="level" class="status-value level">1</div>
+                </div>
+                <div class="status-block">
+                    <div class="status-label">LINES</div>
+                    <div id="lines" class="status-value lines">0</div>
+                </div>
+            </div>
+
+            <div class="sub-canvas-container" style="align-items: flex-end;">
+                <div class="sub-canvas-label">NEXT</div>
+                <canvas id="next" width="100" height="100" class="sub-canvas"></canvas>
+            </div>
+
+            <div class="sound-control" onclick="toggleMute()">
+                <span>AUDIO</span>
+                <span id="sound-icon" class="sound-icon">🔇</span>
+            </div>
+        </aside>
+    </div>
+
+    <!-- モバイル用コントローラー -->
+    <div class="mobile-controls">
+        <div class="d-pad-row">
+            <div class="ctrl-btn" ontouchstart="handleTouch('hold', event)">C</div>
+            <div class="ctrl-btn" ontouchstart="handleTouch('rotate', event)">↻</div>
+        </div>
+        <div class="d-pad-row">
+            <div class="ctrl-btn" ontouchstart="handleTouch('left', event)">←</div>
+            <div class="ctrl-btn" ontouchstart="handleTouch('down', event)">↓</div>
+            <div class="ctrl-btn" ontouchstart="handleTouch('right', event)">→</div>
+        </div>
+        <div class="d-pad-row">
+            <div class="ctrl-btn large" ontouchstart="handleTouch('drop', event)">DROP</div>
+        </div>
+    </div>
+
+</body>
+</html>
