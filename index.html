@@ -12,7 +12,6 @@
 
     <div class="main-container">
         
-        <!-- 左サイドパネル -->
         <aside class="side-panel left-panel">
             <div>
                 <h1 class="game-title">AI<br>Games1<br>5.0</h1>
@@ -37,18 +36,10 @@
             </div>
         </aside>
 
-        <!-- 中央: ゲーム画面 -->
         <main class="game-wrapper" id="gameWrapper">
             <canvas id="tetris" width="360" height="720"></canvas>
+            </main>
 
-            <div id="overlay">
-                <h2 id="overlay-title">READY?</h2>
-                <button id="start-btn" onclick="startGame()">START GAME</button>
-                <div style="margin-top: 15px; font-size: 0.8rem; color: #888;">TAP TO ENABLE AUDIO</div>
-            </div>
-        </main>
-
-        <!-- 右サイドパネル -->
         <aside class="side-panel right-panel">
             <div style="display: flex; gap: 20px; justify-content: flex-end;">
                 <div class="status-block">
@@ -80,20 +71,25 @@
         </aside>
     </div>
 
-    <!-- モバイル用コントローラー -->
     <div class="mobile-controls">
         <div class="d-pad-row">
-            <div class="ctrl-btn" ontouchstart="handleTouch('hold', event)">C</div>
-            <div class="ctrl-btn" ontouchstart="handleTouch('rotate', event)">↻</div>
+            <div class="ctrl-btn" onpointerdown="startAction('hold', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">C</div>
+            <div class="ctrl-btn" onpointerdown="startAction('rotate', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">↻</div>
         </div>
         <div class="d-pad-row">
-            <div class="ctrl-btn" ontouchstart="handleTouch('left', event)">←</div>
-            <div class="ctrl-btn" ontouchstart="handleTouch('down', event)">↓</div>
-            <div class="ctrl-btn" ontouchstart="handleTouch('right', event)">→</div>
+            <div class="ctrl-btn" onpointerdown="startAction('left', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">←</div>
+            <div class="ctrl-btn" onpointerdown="startAction('down', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">↓</div>
+            <div class="ctrl-btn" onpointerdown="startAction('right', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">→</div>
         </div>
         <div class="d-pad-row">
-            <div class="ctrl-btn large" ontouchstart="handleTouch('drop', event)">DROP</div>
+            <div class="ctrl-btn large" onpointerdown="startAction('drop', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">DROP</div>
         </div>
+    </div>
+
+    <div id="overlay">
+        <h2 id="overlay-title">READY?</h2>
+        <button id="start-btn" onclick="startGame()">START GAME</button>
+        <div style="margin-top: 15px; font-size: 0.8rem; color: #888;">TAP TO ENABLE AUDIO</div>
     </div>
 
 </body>
