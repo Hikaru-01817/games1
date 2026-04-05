@@ -277,43 +277,44 @@
         }
 
         /* =========================================
-           レスポンシブ対応 (スコア中央化 ＆ ボタン接近)
+           レスポンシブ対応 (プレイ画面拡大 ＆ 上下バランス調整)
            ========================================= */
         @media (max-width: 900px) {
             body { 
                 flex-direction: column; 
-                justify-content: flex-start; /* 修正: 上下に引き離すのをやめ、上から詰める */
-                padding: 0;
+                /* 全体を画面の上下中央に配置して余白を均等にする */
+                justify-content: center; 
+                /* iPhoneのノッチとホームバー領域をCSSで確保 */
+                padding: env(safe-area-inset-top, 10px) 0 env(safe-area-inset-bottom, 15px) 0;
+                box-sizing: border-box;
             }
             
             .main-container {
                 flex-direction: column;
-                align-items: center; /* 修正: 全体を中央に寄せる */
-                justify-content: flex-start;
+                align-items: center; 
+                justify-content: center;
                 flex: none;      
                 height: auto;    
-                padding: 10px 5px 0 5px;
-                gap: 10px;       /* スコアとゲーム画面の隙間 */
-                margin-top: env(safe-area-inset-top, 0px); 
+                padding: 0 5px;  /* 上下の余白はbodyで管理するため0にする */
+                gap: 15px;       
+                margin: 0;       
             }
             
             .left-panel { display: none; }
             
-            /* --- スコア画面の中央横並び設定 --- */
             .right-panel {
                 order: 1; 
                 flex-direction: row;
-                flex-wrap: wrap; /* 画面が狭い場合は折り返しを許可 */
-                justify-content: center; /* 修正: 中央揃え */
-                align-items: flex-end; /* 下のラインを揃える */
+                flex-wrap: wrap; 
+                justify-content: center; 
+                align-items: flex-end; 
                 height: auto;
                 padding: 0;
                 flex: none;
-                gap: 15px; /* 各要素の隙間 */
+                gap: 15px; 
                 width: 100%;
             }
             
-            /* HTMLで SCORE や LEVEL を囲んでいるdivのレイアウトを解除し、全て直属の子として扱う魔法のコード */
             .right-panel > div[style*="display: flex"] {
                 display: contents;
             }
@@ -333,8 +334,9 @@
             .game-wrapper {
                 order: 2;
                 flex: none; 
-                height: 55vh; 
-                height: 55dvh; 
+                /* プレイ画面のサイズを 55dvh -> 62dvh へ一回り大きくしました */
+                height: 62vh;  
+                height: 62dvh; 
                 align-self: center; 
                 aspect-ratio: 1 / 2; 
                 max-width: 100%; 
@@ -342,7 +344,7 @@
                 justify-content: center;
                 align-items: center;
                 padding: 2px;
-                margin: 0; /* 余計なマージンを削除 */
+                margin: 0; 
             }
             
             canvas#tetris {
@@ -351,7 +353,7 @@
                 display: block;
             }
             
-            /* --- 操作ボタンをプレイ画面に近づける --- */
+            /* --- 操作ボタン --- */
             .mobile-controls {
                 display: flex; 
                 flex-direction: row; 
@@ -361,18 +363,17 @@
                 position: relative; 
                 width: 100%;
                 flex: none; 
-                
-                /* margin-topを小さく設定してプレイ画面に近づける */
-                margin-top: 15px;
-                padding: 5px 5px calc(20px + env(safe-area-inset-bottom, 20px)) 5px;
+                margin-top: 20px; /* プレイ画面から適度な距離 */
+                padding: 0 5px;   /* 無駄な余白をカットしてスッキリと */
                 box-sizing: border-box;
-                background-color: transparent; /* 背景を透明に戻す */
+                background-color: transparent; 
             }
             
             .d-pad-row {
                 display: contents; 
             }
             
+            /* ボタンサイズは前回の指定を維持しています */
             .ctrl-btn { width: 46px; height: 46px; font-size: 1.1rem; border-width: 1px; }
             .ctrl-btn.large { width: 56px; height: 56px; font-size: 0.9rem; }
         }
