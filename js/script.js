@@ -1,4 +1,4 @@
-        // --- メインCanvas ---
+// --- メインCanvas ---
         const canvas = document.getElementById('tetris');
         const context = canvas.getContext('2d');
         const gameWrapper = document.getElementById('gameWrapper');
@@ -140,14 +140,46 @@
             }
         }
 
-        // --- タッチ操作ハンドラ ---
-        function handleTouch(action, event) {
-            event.preventDefault(); // デフォルトのズームなどを防止
+        // --- タッチ操作ハンドラ (修正版：長押し連続移動対応) ---
+        let touchInterval = null;
+        let touchTimeout = null;
+
+        function startAction(action, event) {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
             if (isPaused || isGameOver) return;
             
             // AudioContextのアンロック(モバイル対応)
             if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
 
+            // まず1回即座に実行
+            executeAction(action);
+
+            // 移動系のボタンなら長押しで連続入力（オートリピート）を有効にする
+            if (action === 'left' || action === 'right' || action === 'down') {
+                touchTimeout = setTimeout(() => {
+                    touchInterval = setInterval(() => {
+                        executeAction(action);
+                    }, 80); // 連続入力のスピード（ミリ秒: 数字を小さくすると速くなる）
+                }, 200); // 長押しと判定するまでの時間（ミリ秒）
+            }
+        }
+
+        // 指を離した時、またはボタン外に指がズレた時に連続入力を止める
+        function stopAction(event) {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            clearTimeout(touchTimeout);
+            clearInterval(touchInterval);
+        }
+
+        // 実際のアクション実行部分
+        function executeAction(action) {
+            if (isPaused || isGameOver) return;
             switch(action) {
                 case 'left': playerMove(-1); break;
                 case 'right': playerMove(1); break;
@@ -590,4 +622,3 @@
 
         context.fillStyle = '#000';
         context.fillRect(0, 0, canvas.width, canvas.height);
-        
