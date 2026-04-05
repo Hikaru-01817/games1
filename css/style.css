@@ -1,3 +1,4 @@
+/* --- CSS: デザインとレイアウト --- */
         :root {
             --bg-color: #050510;
             --grid-line: #1a1a3d;
@@ -14,7 +15,8 @@
             color: var(--neon-blue);
             font-family: 'Orbitron', sans-serif;
             margin: 0;
-            min-height: 100vh;
+            height: 100vh;
+            height: 100dvh; 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -34,7 +36,7 @@
             padding: 20px;
             max-width: 1200px;
             width: 100%;
-            height: 100vh;
+            height: 100%;
             box-sizing: border-box;
         }
 
@@ -274,55 +276,65 @@
             40%, 60% { transform: translate3d(4px, 0, 0); }
         }
 
+        /* =========================================
+           レスポンシブ対応 (スコア中央化 ＆ ボタン接近)
+           ========================================= */
         @media (max-width: 900px) {
             body { 
                 flex-direction: column; 
-                justify-content: flex-start;
-                height: 100dvh; 
+                justify-content: flex-start; /* 修正: 上下に引き離すのをやめ、上から詰める */
                 padding: 0;
             }
             
             .main-container {
                 flex-direction: column;
-                align-items: stretch;
-                flex: 1; 
-                min-height: 0; 
-                padding: 10px;
-                gap: 5px;
-                height: auto;
+                align-items: center; /* 修正: 全体を中央に寄せる */
+                justify-content: flex-start;
+                flex: none;      
+                height: auto;    
+                padding: 10px 5px 0 5px;
+                gap: 10px;       /* スコアとゲーム画面の隙間 */
+                margin-top: env(safe-area-inset-top, 0px); 
             }
             
-            .left-panel { 
-                display: none; 
-            }
+            .left-panel { display: none; }
             
+            /* --- スコア画面の中央横並び設定 --- */
             .right-panel {
                 order: 1; 
                 flex-direction: row;
-                flex-wrap: wrap; 
-                justify-content: space-evenly;
-                align-items: center;
+                flex-wrap: wrap; /* 画面が狭い場合は折り返しを許可 */
+                justify-content: center; /* 修正: 中央揃え */
+                align-items: flex-end; /* 下のラインを揃える */
                 height: auto;
-                padding: 5px;
+                padding: 0;
                 flex: none;
-                gap: 10px;
+                gap: 15px; /* 各要素の隙間 */
+                width: 100%;
+            }
+            
+            /* HTMLで SCORE や LEVEL を囲んでいるdivのレイアウトを解除し、全て直属の子として扱う魔法のコード */
+            .right-panel > div[style*="display: flex"] {
+                display: contents;
             }
             
             .status-block { margin-bottom: 0; text-align: center;}
-            .status-label { font-size: 0.6rem; margin-bottom: 2px; }
-            .status-value { font-size: 1.2rem; }
+            .status-label { font-size: 0.5rem; margin-bottom: 2px; }
+            .status-value { font-size: 1.1rem; line-height: 1;}
             
-            .sub-canvas-container { margin-top: 0; padding: 5px; flex-direction: row; gap: 5px;}
-            .sub-canvas-label { font-size: 0.6rem; margin-bottom: 0; }
-            canvas.sub-canvas { width: 40px !important; height: 40px !important; }
+            .sub-canvas-container { margin-top: 0; padding: 0; flex-direction: column; gap: 2px; border: none; background: none; align-items: center !important;}
+            .sub-canvas-label { font-size: 0.5rem; margin-bottom: 0; }
+            canvas.sub-canvas { width: 35px !important; height: 35px !important; }
             
-            .sound-control { margin-top: 0; font-size: 0.8rem; }
-            .sound-icon { font-size: 1.2rem; }
+            .sound-control { margin-top: 0; font-size: 0.5rem; gap: 2px; flex-direction: column; padding-bottom: 3px;}
+            .sound-icon { font-size: 1.1rem; line-height: 1;}
             
+            /* --- ゲーム画面 --- */
             .game-wrapper {
-                order: 2; 
-                flex: 1; 
-                min-height: 0; 
+                order: 2;
+                flex: none; 
+                height: 55vh; 
+                height: 55dvh; 
                 align-self: center; 
                 aspect-ratio: 1 / 2; 
                 max-width: 100%; 
@@ -330,7 +342,7 @@
                 justify-content: center;
                 align-items: center;
                 padding: 2px;
-                margin-top: 5px;
+                margin: 0; /* 余計なマージンを削除 */
             }
             
             canvas#tetris {
@@ -339,6 +351,7 @@
                 display: block;
             }
             
+            /* --- 操作ボタンをプレイ画面に近づける --- */
             .mobile-controls {
                 display: flex; 
                 flex-direction: row; 
@@ -346,17 +359,20 @@
                 align-items: center;
                 gap: 5px; 
                 position: relative; 
-                bottom: auto;
                 width: 100%;
-                flex-shrink: 0; 
-                padding: 10px 5px 20px 5px;
+                flex: none; 
+                
+                /* margin-topを小さく設定してプレイ画面に近づける */
+                margin-top: 15px;
+                padding: 5px 5px calc(20px + env(safe-area-inset-bottom, 20px)) 5px;
                 box-sizing: border-box;
+                background-color: transparent; /* 背景を透明に戻す */
             }
             
             .d-pad-row {
                 display: contents; 
             }
             
-            .ctrl-btn { width: 45px; height: 45px; font-size: 1rem; }
-            .ctrl-btn.large { width: 55px; height: 55px; font-size: 0.9rem; }
+            .ctrl-btn { width: 46px; height: 46px; font-size: 1.1rem; border-width: 1px; }
+            .ctrl-btn.large { width: 56px; height: 56px; font-size: 0.9rem; }
         }
