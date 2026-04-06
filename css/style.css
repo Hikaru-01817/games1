@@ -277,7 +277,7 @@
         }
 
         /* =========================================
-           レスポンシブ対応 (スコアの完全均等・中央配置化)
+           レスポンシブ対応 (プレイ画面のさらなる拡大)
            ========================================= */
         @media (max-width: 900px) {
             body { 
@@ -294,7 +294,7 @@
                 flex: none;      
                 height: auto;    
                 padding: 0;      
-                gap: 15px;       
+                gap: 8px; /* さらに少し詰めて隙間を確保 */
                 margin: 0;       
             }
             
@@ -307,7 +307,7 @@
                 align-items: center; 
                 justify-items: center; 
                 height: auto;
-                padding: 10px 5px;
+                padding: 5px; 
                 flex: none;
                 gap: 0; 
                 width: 95%; 
@@ -315,11 +315,11 @@
                 box-sizing: border-box; 
             }
             
-            /* 【最重要修正】!importantを付けてHTMLの直書きstyleを絶対に上書きする */
             .right-panel > div:not(.sub-canvas-container):not(.sound-control) {
                 display: contents !important; 
             }
             
+            /* --- スコア・表示部分 --- */
             .status-block { 
                 margin-bottom: 0; 
                 width: 100%;
@@ -328,8 +328,8 @@
                 align-items: center !important; 
                 justify-content: center;
             }
-            .status-label { font-size: 0.55rem; margin-bottom: 2px; text-align: center; }
-            .status-value { font-size: 1.1rem; line-height: 1; text-align: center; }
+            .status-label { font-size: 0.5rem; margin-bottom: 2px; text-align: center; } 
+            .status-value { font-size: 1.0rem; line-height: 1; text-align: center; } 
             
             .sub-canvas-container { 
                 margin-top: 0; 
@@ -342,12 +342,12 @@
                 align-items: center !important; 
                 justify-content: center !important;
             }
-            .sub-canvas-label { font-size: 0.55rem; margin-bottom: 0; text-align: center; }
-            canvas.sub-canvas { width: 35px !important; height: 35px !important; display: block; margin: 0 auto; }
+            .sub-canvas-label { font-size: 0.5rem; margin-bottom: 0; text-align: center; }
+            canvas.sub-canvas { width: 30px !important; height: 30px !important; display: block; margin: 0 auto; } 
             
             .sound-control { 
                 margin-top: 0; 
-                font-size: 0.55rem; 
+                font-size: 0.5rem; 
                 gap: 2px; 
                 flex-direction: column; 
                 padding-bottom: 0; 
@@ -356,14 +356,14 @@
                 justify-content: center !important;
                 text-align: center;
             }
-            .sound-icon { font-size: 1.2rem; line-height: 1; text-align: center; }
+            .sound-icon { font-size: 1.0rem; line-height: 1; text-align: center; } 
             
-            /* --- ゲーム画面 --- */
+            /* --- ゲーム画面の拡大 --- */
             .game-wrapper {
                 order: 2;
                 flex: none; 
-                height: 66vh;   
-                height: 66dvh; 
+                height: 73vh;   /* 70dvh -> 73dvh に限界まで拡大 */
+                height: 73dvh; 
                 align-self: center; 
                 aspect-ratio: 1 / 2; 
                 max-width: 100%; 
@@ -391,7 +391,7 @@
                 width: 95%; 
                 max-width: 360px; 
                 flex: none; 
-                margin-top: 15px; 
+                margin-top: 5px; /* ここも少し詰める */
                 padding: 0; 
                 box-sizing: border-box;
                 background-color: transparent; 
@@ -401,6 +401,6 @@
                 display: contents; 
             }
             
-            .ctrl-btn { width: 46px; height: 46px; font-size: 1.1rem; border-width: 1px; }
-            .ctrl-btn.large { width: 56px; height: 56px; font-size: 0.9rem; }
+            .ctrl-btn { width: 42px; height: 42px; font-size: 1.0rem; border-width: 1px; } 
+            .ctrl-btn.large { width: 50px; height: 50px; font-size: 0.8rem; } 
         }
