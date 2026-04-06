@@ -277,14 +277,12 @@
         }
 
         /* =========================================
-           レスポンシブ対応 (プレイ画面拡大 ＆ 上下バランス調整)
+           レスポンシブ対応 (スコアの完全均等・中央配置化)
            ========================================= */
         @media (max-width: 900px) {
             body { 
                 flex-direction: column; 
-                /* 全体を画面の上下中央に配置して余白を均等にする */
                 justify-content: center; 
-                /* iPhoneのノッチとホームバー領域をCSSで確保 */
                 padding: env(safe-area-inset-top, 10px) 0 env(safe-area-inset-bottom, 15px) 0;
                 box-sizing: border-box;
             }
@@ -295,7 +293,7 @@
                 justify-content: center;
                 flex: none;      
                 height: auto;    
-                padding: 0 5px;  /* 上下の余白はbodyで管理するため0にする */
+                padding: 0;      
                 gap: 15px;       
                 margin: 0;       
             }
@@ -304,39 +302,68 @@
             
             .right-panel {
                 order: 1; 
-                flex-direction: row;
-                flex-wrap: wrap; 
-                justify-content: center; 
-                align-items: flex-end; 
+                display: grid;
+                grid-template-columns: repeat(5, 1fr); 
+                align-items: center; 
+                justify-items: center; 
                 height: auto;
-                padding: 0;
+                padding: 10px 5px;
                 flex: none;
-                gap: 15px; 
+                gap: 0; 
+                width: 95%; 
+                max-width: 360px;
+                box-sizing: border-box; 
+            }
+            
+            /* 【最重要修正】!importantを付けてHTMLの直書きstyleを絶対に上書きする */
+            .right-panel > div:not(.sub-canvas-container):not(.sound-control) {
+                display: contents !important; 
+            }
+            
+            .status-block { 
+                margin-bottom: 0; 
                 width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center !important; 
+                justify-content: center;
             }
+            .status-label { font-size: 0.55rem; margin-bottom: 2px; text-align: center; }
+            .status-value { font-size: 1.1rem; line-height: 1; text-align: center; }
             
-            .right-panel > div[style*="display: flex"] {
-                display: contents;
+            .sub-canvas-container { 
+                margin-top: 0; 
+                padding: 0; 
+                flex-direction: column; 
+                gap: 2px; 
+                border: none; 
+                background: none; 
+                width: 100%;
+                align-items: center !important; 
+                justify-content: center !important;
             }
+            .sub-canvas-label { font-size: 0.55rem; margin-bottom: 0; text-align: center; }
+            canvas.sub-canvas { width: 35px !important; height: 35px !important; display: block; margin: 0 auto; }
             
-            .status-block { margin-bottom: 0; text-align: center;}
-            .status-label { font-size: 0.5rem; margin-bottom: 2px; }
-            .status-value { font-size: 1.1rem; line-height: 1;}
-            
-            .sub-canvas-container { margin-top: 0; padding: 0; flex-direction: column; gap: 2px; border: none; background: none; align-items: center !important;}
-            .sub-canvas-label { font-size: 0.5rem; margin-bottom: 0; }
-            canvas.sub-canvas { width: 35px !important; height: 35px !important; }
-            
-            .sound-control { margin-top: 0; font-size: 0.5rem; gap: 2px; flex-direction: column; padding-bottom: 3px;}
-            .sound-icon { font-size: 1.1rem; line-height: 1;}
+            .sound-control { 
+                margin-top: 0; 
+                font-size: 0.55rem; 
+                gap: 2px; 
+                flex-direction: column; 
+                padding-bottom: 0; 
+                width: 100%;
+                align-items: center !important; 
+                justify-content: center !important;
+                text-align: center;
+            }
+            .sound-icon { font-size: 1.2rem; line-height: 1; text-align: center; }
             
             /* --- ゲーム画面 --- */
             .game-wrapper {
                 order: 2;
                 flex: none; 
-                /* プレイ画面のサイズを 55dvh -> 62dvh へ一回り大きくしました */
-                height: 62vh;  
-                height: 62dvh; 
+                height: 66vh;   
+                height: 66dvh; 
                 align-self: center; 
                 aspect-ratio: 1 / 2; 
                 max-width: 100%; 
@@ -357,14 +384,15 @@
             .mobile-controls {
                 display: flex; 
                 flex-direction: row; 
-                justify-content: center; 
+                justify-content: space-between; 
                 align-items: center;
-                gap: 5px; 
+                gap: 0; 
                 position: relative; 
-                width: 100%;
+                width: 95%; 
+                max-width: 360px; 
                 flex: none; 
-                margin-top: 20px; /* プレイ画面から適度な距離 */
-                padding: 0 5px;   /* 無駄な余白をカットしてスッキリと */
+                margin-top: 15px; 
+                padding: 0; 
                 box-sizing: border-box;
                 background-color: transparent; 
             }
@@ -373,7 +401,6 @@
                 display: contents; 
             }
             
-            /* ボタンサイズは前回の指定を維持しています */
             .ctrl-btn { width: 46px; height: 46px; font-size: 1.1rem; border-width: 1px; }
             .ctrl-btn.large { width: 56px; height: 56px; font-size: 0.9rem; }
         }
