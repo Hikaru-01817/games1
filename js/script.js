@@ -67,7 +67,6 @@
         let isMuted = false;
         let bgmOscillators = [];
 
-        // 音を鳴らす関数
         function playSound(type) {
             if (isMuted || !audioCtx) return;
             if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -140,7 +139,6 @@
             }
         }
 
-        // --- タッチ操作ハンドラ (修正版：長押し連続移動対応) ---
         let touchInterval = null;
         let touchTimeout = null;
 
@@ -151,23 +149,19 @@
             }
             if (isPaused || isGameOver) return;
             
-            // AudioContextのアンロック(モバイル対応)
             if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
 
-            // まず1回即座に実行
             executeAction(action);
 
-            // 移動系のボタンなら長押しで連続入力（オートリピート）を有効にする
             if (action === 'left' || action === 'right' || action === 'down') {
                 touchTimeout = setTimeout(() => {
                     touchInterval = setInterval(() => {
                         executeAction(action);
-                    }, 80); // 連続入力のスピード（ミリ秒: 数字を小さくすると速くなる）
-                }, 200); // 長押しと判定するまでの時間（ミリ秒）
+                    }, 80); 
+                }, 200); 
             }
         }
 
-        // 指を離した時、またはボタン外に指がズレた時に連続入力を止める
         function stopAction(event) {
             if (event) {
                 event.preventDefault();
@@ -177,7 +171,6 @@
             clearInterval(touchInterval);
         }
 
-        // 実際のアクション実行部分
         function executeAction(action) {
             if (isPaused || isGameOver) return;
             switch(action) {
@@ -193,49 +186,13 @@
         // --- ゲームロジック ---
 
         function createPiece(type) {
-            if (type === 'I') {
-                return [
-                    [0, 1, 0, 0],
-                    [0, 1, 0, 0],
-                    [0, 1, 0, 0],
-                    [0, 1, 0, 0],
-                ];
-            } else if (type === 'L') {
-                return [
-                    [0, 2, 0],
-                    [0, 2, 0],
-                    [0, 2, 2],
-                ];
-            } else if (type === 'J') {
-                return [
-                    [0, 3, 0],
-                    [0, 3, 0],
-                    [3, 3, 0],
-                ];
-            } else if (type === 'O') {
-                return [
-                    [4, 4],
-                    [4, 4],
-                ];
-            } else if (type === 'Z') {
-                return [
-                    [5, 5, 0],
-                    [0, 5, 5],
-                    [0, 0, 0],
-                ];
-            } else if (type === 'S') {
-                return [
-                    [0, 6, 6],
-                    [6, 6, 0],
-                    [0, 0, 0],
-                ];
-            } else if (type === 'T') {
-                return [
-                    [0, 7, 0],
-                    [7, 7, 7],
-                    [0, 0, 0],
-                ];
-            }
+            if (type === 'I') { return [[0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0]]; }
+            else if (type === 'L') { return [[0, 2, 0], [0, 2, 0], [0, 2, 2]]; }
+            else if (type === 'J') { return [[0, 3, 0], [0, 3, 0], [3, 3, 0]]; }
+            else if (type === 'O') { return [[4, 4], [4, 4]]; }
+            else if (type === 'Z') { return [[5, 5, 0], [0, 5, 5], [0, 0, 0]]; }
+            else if (type === 'S') { return [[0, 6, 6], [6, 6, 0], [0, 0, 0]]; }
+            else if (type === 'T') { return [[0, 7, 0], [7, 7, 7], [0, 0, 0]]; }
         }
 
         function getRandomPieceType() {
@@ -488,13 +445,12 @@
             player.pos.x = (arena[0].length / 2 | 0) - (player.matrix[0].length / 2 | 0);
             player.canHold = true;
 
-            if (collide(arena, player)) {
+            // --- 修正: ゲームオーバー時の処理 ---
+            if (collide(arena, player) && !fromHold) {
                 isGameOver = true;
                 isPaused = true;
-                overlayTitle.innerText = "GAME OVER";
-                startBtn.innerText = "RETRY";
-                overlay.style.display = "flex";
                 playSound('gameover');
+                handleGameOverSequence();
             }
         }
 
@@ -563,8 +519,10 @@
                 event.preventDefault();
             }
             if (event.keyCode === 27) { // Escape
-                toggleMute();
-                togglePause();
+                if (!isGameOver) {
+                    toggleMute();
+                    togglePause();
+                }
                 return;
             }
             if (isPaused) return;
@@ -577,12 +535,90 @@
             else if (event.keyCode === 67) { playerHold(); }
         });
 
+        // =========================================
+        // 追加: 画面遷移とスコアランキング管理
+        // =========================================
+
+        function switchOverlayScreen(screenId) {
+            document.getElementById('screen-start').style.display = 'none';
+            document.getElementById('screen-result').style.display = 'none';
+            document.getElementById('screen-ranking').style.display = 'none';
+            document.getElementById(screenId).style.display = 'flex';
+        }
+
+        function getScores() {
+            const scores = localStorage.getItem('tetrisRanking');
+            return scores ? JSON.parse(scores) : [];
+        }
+
+        function saveScore(newScore) {
+            if (newScore === 0) return; // 0点は保存しない
+            let scores = getScores();
+            scores.push(newScore);
+            scores.sort((a, b) => b - a); // 降順にソート
+            scores = scores.slice(0, 5); // 上位5件のみ保持
+            localStorage.setItem('tetrisRanking', JSON.stringify(scores));
+        }
+
+        function handleGameOverSequence() {
+            // スコアを保存
+            saveScore(player.score);
+
+            // リザルト画面に数値をセット
+            document.getElementById('res-score').innerText = player.score;
+            document.getElementById('res-level').innerText = player.level;
+            document.getElementById('res-lines').innerText = player.lines;
+
+            // リザルト画面を表示
+            switchOverlayScreen('screen-result');
+            overlay.style.display = "flex";
+        }
+
+        function showRankingScreen() {
+            const scores = getScores();
+            const list = document.getElementById('ranking-list');
+            list.innerHTML = ''; // リストを初期化
+            
+            if (scores.length === 0) {
+                list.innerHTML = '<li><span style="margin:0 auto; color:#888;">NO RECORD</span></li>';
+            } else {
+                scores.forEach((s, index) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<span class="rank">${index + 1}</span><span class="score-val">${s}</span>`;
+                    list.appendChild(li);
+                });
+            }
+            
+            switchOverlayScreen('screen-ranking');
+        }
+
+        function backToTitle() {
+            // ゲーム状態を完全にリセット
+            arena.forEach(row => row.fill(0));
+            player.score = 0;
+            player.lines = 0;
+            player.level = 1;
+            player.hold = null;
+            player.next = null;
+            dropInterval = 1000;
+            updateStats();
+            playerReset(); 
+            particles = [];
+            draw(); // 真っ新な画面を描画
+
+            isGameOver = false; // フラグを解除 (isPausedはtrueのまま)
+            
+            // スタート画面へ戻る
+            overlayTitle.innerText = "READY?";
+            startBtn.innerText = "START GAME";
+            switchOverlayScreen('screen-start');
+        }
+
         function startGame() {
             if (audioCtx.state === 'suspended') {
                 audioCtx.resume();
             }
-            toggleMute(); // 初回のみアイコン更新用
-            toggleMute(); // 戻す
+            toggleMute(); toggleMute(); 
             if (!isMuted) {
                 soundIcon.innerText = "🔊";
                 soundIcon.classList.add('sound-active');
@@ -591,20 +627,6 @@
         }
 
         function togglePause() {
-            if (isGameOver) {
-                arena.forEach(row => row.fill(0));
-                player.score = 0;
-                player.lines = 0;
-                player.level = 1;
-                player.hold = null;
-                player.next = null;
-                dropInterval = 1000;
-                updateStats();
-                isGameOver = false;
-                playerReset();
-                particles = [];
-            }
-
             if (isPaused) {
                 isPaused = false;
                 overlay.style.display = "none";
@@ -616,6 +638,7 @@
                 isPaused = true;
                 overlayTitle.innerText = "PAUSED";
                 startBtn.innerText = "RESUME";
+                switchOverlayScreen('screen-start');
                 overlay.style.display = "flex";
             }
         }
