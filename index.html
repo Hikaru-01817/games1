@@ -38,7 +38,7 @@
 
         <main class="game-wrapper" id="gameWrapper">
             <canvas id="tetris" width="360" height="720"></canvas>
-            </main>
+        </main>
 
         <aside class="side-panel right-panel">
             <div style="display: flex; gap: 20px; justify-content: flex-end;">
@@ -87,9 +87,28 @@
     </div>
 
     <div id="overlay">
-        <h2 id="overlay-title">READY?</h2>
-        <button id="start-btn" onclick="startGame()">START GAME</button>
-        <div style="margin-top: 15px; font-size: 0.8rem; color: #888;">TAP TO ENABLE AUDIO</div>
+        <div id="screen-start" class="overlay-screen" style="display: flex;">
+            <h2 id="overlay-title">READY?</h2>
+            <button id="start-btn" onclick="startGame()">START GAME</button>
+            <div style="margin-top: 15px; font-size: 0.8rem; color: #888;">TAP TO ENABLE AUDIO</div>
+        </div>
+
+        <div id="screen-result" class="overlay-screen" style="display: none;">
+            <h2 style="color: var(--neon-blue); text-shadow: 0 0 20px var(--neon-blue);">RESULT</h2>
+            <div class="result-details">
+                <p>SCORE: <span id="res-score" style="color: var(--neon-green);">0</span></p>
+                <p>LEVEL: <span id="res-level" style="color: var(--neon-yellow);">1</span></p>
+                <p>LINES: <span id="res-lines" style="color: var(--neon-purple);">0</span></p>
+            </div>
+            <button onclick="showRankingScreen()">NEXT</button>
+        </div>
+
+        <div id="screen-ranking" class="overlay-screen" style="display: none;">
+            <h2 style="color: var(--neon-yellow); text-shadow: 0 0 20px var(--neon-yellow);">TOP RANKING</h2>
+            <ul id="ranking-list" class="ranking-list">
+                </ul>
+            <button onclick="backToTitle()">BACK TO TITLE</button>
+        </div>
     </div>
 
 </body>
