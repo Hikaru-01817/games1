@@ -182,14 +182,69 @@
             z-index: 999;
         }
 
-        #overlay h2 {
+        /* --- 追加: 複数画面用のコンテナ設定 --- */
+        .overlay-screen {
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .overlay-screen h2 {
             font-size: 3rem;
             color: var(--neon-pink);
             text-shadow: 0 0 20px var(--neon-pink);
             margin-bottom: 20px;
         }
 
-        #start-btn {
+        /* --- 追加: リザルト詳細 --- */
+        .result-details {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--neon-blue);
+            padding: 20px 40px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: left;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+            font-size: 1.5rem;
+            min-width: 250px;
+        }
+        
+        .result-details p {
+            margin: 15px 0;
+            display: flex;
+            justify-content: space-between;
+            color: #fff;
+            text-shadow: 0 0 5px rgba(255,255,255,0.5);
+        }
+
+        /* --- 追加: ランキングリスト --- */
+        .ranking-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 30px 0;
+            width: 80%;
+            max-width: 350px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--neon-yellow);
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(255, 238, 0, 0.2);
+        }
+
+        .ranking-list li {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.5rem;
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 238, 0, 0.3);
+            color: #fff;
+        }
+        .ranking-list li:last-child { border-bottom: none; }
+        .ranking-list li .rank { color: var(--neon-pink); font-weight: bold; }
+        .ranking-list li .score-val { color: var(--neon-green); font-weight: bold; text-shadow: 0 0 10px var(--neon-green);}
+
+        /* 共通ボタン設定 */
+        #overlay button {
             background: transparent;
             color: var(--neon-blue);
             font-family: 'Orbitron', sans-serif;
@@ -201,7 +256,7 @@
             transition: all 0.2s;
         }
 
-        #start-btn:hover {
+        #overlay button:hover {
             background: var(--neon-blue);
             color: #000;
             box-shadow: 0 0 30px var(--neon-blue);
@@ -277,7 +332,7 @@
         }
 
         /* =========================================
-           レスポンシブ対応 (プレイ画面のさらなる拡大)
+           レスポンシブ対応
            ========================================= */
         @media (max-width: 900px) {
             body { 
@@ -294,7 +349,7 @@
                 flex: none;      
                 height: auto;    
                 padding: 0;      
-                gap: 8px; /* さらに少し詰めて隙間を確保 */
+                gap: 8px;
                 margin: 0;       
             }
             
@@ -319,7 +374,6 @@
                 display: contents !important; 
             }
             
-            /* --- スコア・表示部分 --- */
             .status-block { 
                 margin-bottom: 0; 
                 width: 100%;
@@ -358,11 +412,10 @@
             }
             .sound-icon { font-size: 1.0rem; line-height: 1; text-align: center; } 
             
-            /* --- ゲーム画面の拡大 --- */
             .game-wrapper {
                 order: 2;
                 flex: none; 
-                height: 73vh;   /* 70dvh -> 73dvh に限界まで拡大 */
+                height: 73vh;   
                 height: 73dvh; 
                 align-self: center; 
                 aspect-ratio: 1 / 2; 
@@ -380,7 +433,6 @@
                 display: block;
             }
             
-            /* --- 操作ボタン --- */
             .mobile-controls {
                 display: flex; 
                 flex-direction: row; 
@@ -391,7 +443,7 @@
                 width: 95%; 
                 max-width: 360px; 
                 flex: none; 
-                margin-top: 5px; /* ここも少し詰める */
+                margin-top: 5px;
                 padding: 0; 
                 box-sizing: border-box;
                 background-color: transparent; 
@@ -403,4 +455,10 @@
             
             .ctrl-btn { width: 42px; height: 42px; font-size: 1.0rem; border-width: 1px; } 
             .ctrl-btn.large { width: 50px; height: 50px; font-size: 0.8rem; } 
+
+            /* スマホ用のリザルト＆ランキングのサイズ調整 */
+            .overlay-screen h2 { font-size: 2rem; }
+            .result-details { padding: 15px 25px; font-size: 1.2rem; min-width: 200px; }
+            .ranking-list li { font-size: 1.2rem; padding: 10px 15px; }
+            #overlay button { font-size: 1.2rem; padding: 8px 20px; }
         }
