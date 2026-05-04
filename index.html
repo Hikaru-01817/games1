@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AI Games1</title>
+    <title>AI Games</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/script.js" defer></script>
@@ -14,15 +14,15 @@
         
         <aside class="side-panel left-panel">
             <div>
-                <h1 class="game-title">AI<br>Games1<br>5.0</h1>
+                <h1 class="game-title">AI<br>Games<br><span>Ver.6.0</span></h1>
                 <p class="story-text"><br>
                     サウンド一部対応。<br>
                     タッチ操作一部対応。
                 </p>
             </div>
 
-            <div class="sub-canvas-container">
-                <div class="sub-canvas-label">HOLD (C)</div>
+            <div class="sub-canvas-container" id="holdPanel">
+                <div class="sub-canvas-label" id="holdLabel">HOLD (C)</div>
                 <canvas id="hold" width="100" height="100" class="sub-canvas"></canvas>
             </div>
 
@@ -59,8 +59,8 @@
                 </div>
             </div>
 
-            <div class="sub-canvas-container" style="align-items: flex-end;">
-                <div class="sub-canvas-label">NEXT</div>
+            <div class="sub-canvas-container" id="nextPanel" style="align-items: flex-end;">
+                <div class="sub-canvas-label" id="nextLabel">NEXT</div>
                 <canvas id="next" width="100" height="100" class="sub-canvas"></canvas>
             </div>
 
@@ -73,26 +73,37 @@
 
     <div class="mobile-controls">
         <div class="d-pad-row">
-            <div class="ctrl-btn" onpointerdown="startAction('hold', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">C</div>
-            <div class="ctrl-btn" onpointerdown="startAction('rotate', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">↻</div>
+            <div id="mobile-hold" class="ctrl-btn" onpointerdown="startAction('hold', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">HOLD</div>
+            <div id="mobile-rotate" class="ctrl-btn" onpointerdown="startAction('rotate', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">ROT</div>
         </div>
         <div class="d-pad-row">
-            <div class="ctrl-btn" onpointerdown="startAction('left', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">←</div>
-            <div class="ctrl-btn" onpointerdown="startAction('down', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">↓</div>
-            <div class="ctrl-btn" onpointerdown="startAction('right', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">→</div>
+            <div id="mobile-left" class="ctrl-btn" onpointerdown="startAction('left', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">LEFT</div>
+            <div id="mobile-down" class="ctrl-btn" onpointerdown="startAction('down', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">DOWN</div>
+            <div id="mobile-right" class="ctrl-btn" onpointerdown="startAction('right', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">RIGHT</div>
         </div>
         <div class="d-pad-row">
-            <div class="ctrl-btn large" onpointerdown="startAction('drop', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">DROP</div>
+            <div id="mobile-drop" class="ctrl-btn large" onpointerdown="startAction('drop', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">DROP</div>
         </div>
     </div>
 
     <div id="overlay">
-        <div id="screen-start" class="overlay-screen" style="display: flex;">
-            <h2 id="overlay-title">READY?</h2>
-            <button id="start-btn" onclick="startGame()">START GAME</button>
-            <div style="margin-top: 15px; font-size: 0.8rem; color: #888;">TAP TO ENABLE AUDIO</div>
+        <div id="screen-start" class="overlay-screen title-screen" style="display: flex;">
+            <div class="title-panel">
+                <button id="help-btn" class="help-btn" onclick="showHelpScreen()">?</button>
+                <div class="title-brand">
+                    <h1>AI Games</h1>
+                    <p>BLOCK PUZZLE COLLECTION</p>
+                </div>
+                <h2 id="overlay-title" class="menu-title">SELECT MODE</h2>
+                <div id="mode-select" class="mode-buttons">
+                    <button onclick="selectGameMode('tetris')">TETRIS MODE</button>
+                    <button onclick="selectGameMode('puyo')">PUYO MODE</button>
+                    <button onclick="showTitleRanking()">RANKING</button>
+                </div>
+                <button id="start-btn" onclick="startGame()" style="display: none;">START GAME</button>
+                <div class="audio-hint">TAP TO ENABLE AUDIO</div>
+            </div>
         </div>
-
         <div id="screen-result" class="overlay-screen" style="display: none;">
             <h2 style="color: var(--neon-blue); text-shadow: 0 0 20px var(--neon-blue);">RESULT</h2>
             <div class="result-details">
@@ -100,16 +111,37 @@
                 <p>LEVEL: <span id="res-level" style="color: var(--neon-yellow);">1</span></p>
                 <p>LINES: <span id="res-lines" style="color: var(--neon-purple);">0</span></p>
             </div>
-            <button onclick="showRankingScreen()">NEXT</button>
+            <button id="result-next-btn" onclick="showRankingScreen()">NEXT</button>
         </div>
 
         <div id="screen-ranking" class="overlay-screen" style="display: none;">
-            <h2 style="color: var(--neon-yellow); text-shadow: 0 0 20px var(--neon-yellow);">TOP RANKING</h2>
+            <h2 id="ranking-title" style="color: var(--neon-yellow); text-shadow: 0 0 20px var(--neon-yellow);">TOP RANKING</h2>
+            <div id="ranking-tabs" class="ranking-tabs">
+                <button data-ranking-mode="total" onclick="showRankingScreen('total')">TOTAL</button>
+                <button data-ranking-mode="tetris" onclick="showRankingScreen('tetris')">TETRIS</button>
+                <button data-ranking-mode="puyo" onclick="showRankingScreen('puyo')">PUYO</button>
+            </div>
             <ul id="ranking-list" class="ranking-list">
                 </ul>
-            <button onclick="backToTitle()">BACK TO TITLE</button>
+            <button id="ranking-back-btn" onclick="backToTitle()">BACK TO TITLE</button>
         </div>
-    </div>
+        <div id="screen-help" class="overlay-screen" style="display: none;">
+            <div class="help-panel">
+                <h2 id="help-title">TETRIS MODE</h2>
+                <div id="help-tabs" class="ranking-tabs help-tabs">
+                    <button data-help-mode="tetris" onclick="showHelpScreen('tetris')">TETRIS</button>
+                    <button data-help-mode="puyo" onclick="showHelpScreen('puyo')">PUYO</button>
+                </div>
+                <div id="help-content" class="help-content"></div>
+                <button onclick="backToTitle()">BACK TO TITLE</button>
+            </div>
+        </div>    </div>
 
 </body>
 </html>
+
+
+
+
+
+

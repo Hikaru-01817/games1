@@ -1,4 +1,4 @@
-/* --- CSS: デザインとレイアウト --- */
+﻿/* --- CSS: デザインとレイアウト --- */
         :root {
             --bg-color: #050510;
             --grid-line: #1a1a3d;
@@ -73,6 +73,15 @@
             padding-bottom: 15px;
         }
 
+        .game-title span {
+            display: inline-block;
+            margin-top: 8px;
+            font-size: 1.35rem;
+            color: var(--neon-blue);
+            text-shadow: 0 0 12px var(--neon-blue);
+            font-style: normal;
+        }
+
         .story-text {
             font-size: 0.8rem;
             color: #aaa;
@@ -142,6 +151,11 @@
             transition: transform 0.1s;
         }
 
+        body.puyo-mode .game-wrapper {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.2);
+        }
+
         canvas#tetris {
             display: block;
             background-color: #020205;
@@ -194,10 +208,127 @@
             font-size: 3rem;
             color: var(--neon-pink);
             text-shadow: 0 0 20px var(--neon-pink);
-            margin-bottom: 20px;
+            margin-bottom: 34px;
         }
 
         /* --- 追加: リザルト詳細 --- */
+
+        .title-screen {
+            padding: 24px;
+            box-sizing: border-box;
+        }
+
+        .title-panel,
+        .help-panel {
+            position: relative;
+            width: min(90vw, 520px);
+            background: rgba(0, 0, 0, 0.72);
+            border: 1px solid rgba(0, 243, 255, 0.45);
+            border-radius: 8px;
+            box-shadow: 0 0 28px rgba(0, 243, 255, 0.2), inset 0 0 30px rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(6px);
+            padding: 34px 42px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .title-brand {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .title-brand h1 {
+            margin: 0;
+            font-size: 3.7rem;
+            line-height: 1;
+            color: var(--neon-pink);
+            text-shadow: 0 0 18px var(--neon-pink);
+            font-style: italic;
+        }
+
+        .title-brand p {
+            margin: 10px 0 0;
+            color: var(--neon-yellow);
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--neon-yellow);
+        }
+
+        .menu-title {
+            font-size: 1.35rem !important;
+            color: var(--neon-blue) !important;
+            text-shadow: 0 0 14px var(--neon-blue) !important;
+            margin: 0 0 22px !important;
+        }
+
+        .audio-hint {
+            margin-top: 18px;
+            font-size: 0.72rem;
+            color: #888;
+        }
+
+        .help-btn {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 42px !important;
+            height: 42px;
+            min-width: 0 !important;
+            padding: 0 !important;
+            border-radius: 50%;
+            font-size: 1.35rem !important;
+            color: var(--neon-yellow) !important;
+            border-color: var(--neon-yellow) !important;
+            box-shadow: 0 0 14px rgba(255, 238, 0, 0.35) !important;
+        }
+
+        .help-panel {
+            width: min(92vw, 680px);
+            max-height: 86vh;
+            padding: 28px 34px;
+        }
+
+        .help-panel h2 {
+            font-size: 2.3rem;
+            margin: 0 0 20px;
+            color: var(--neon-yellow);
+            text-shadow: 0 0 18px var(--neon-yellow);
+        }
+
+        .help-content {
+            width: 100%;
+            max-height: 52vh;
+            overflow-y: auto;
+            color: #ddd;
+            font-family: sans-serif;
+            line-height: 1.65;
+            padding: 18px 20px;
+            margin-bottom: 22px;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(0, 243, 255, 0.25);
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        .help-content p { margin: 0 0 16px; }
+
+        .help-section-title {
+            margin: 16px 0 8px;
+            color: var(--neon-blue);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            text-shadow: 0 0 8px var(--neon-blue);
+        }
+
+        .help-content ul {
+            margin: 0 0 12px;
+            padding-left: 1.2rem;
+        }
+
+        .help-content li { margin: 4px 0; }
+        .help-tabs { margin: -6px 0 18px; }
         .result-details {
             background: rgba(0, 0, 0, 0.7);
             border: 1px solid var(--neon-blue);
@@ -223,8 +354,8 @@
             list-style: none;
             padding: 0;
             margin: 0 0 30px 0;
-            width: 80%;
-            max-width: 350px;
+            width: min(88%, 440px);
+            max-width: 440px;
             background: rgba(0, 0, 0, 0.7);
             border: 1px solid var(--neon-yellow);
             border-radius: 8px;
@@ -232,8 +363,10 @@
         }
 
         .ranking-list li {
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: 48px 1fr 92px;
+            align-items: center;
+            gap: 12px;
             font-size: 1.5rem;
             padding: 15px 20px;
             border-bottom: 1px solid rgba(255, 238, 0, 0.3);
@@ -241,9 +374,48 @@
         }
         .ranking-list li:last-child { border-bottom: none; }
         .ranking-list li .rank { color: var(--neon-pink); font-weight: bold; }
-        .ranking-list li .score-val { color: var(--neon-green); font-weight: bold; text-shadow: 0 0 10px var(--neon-green);}
+        .ranking-list li .score-val { color: var(--neon-green); font-weight: bold; text-shadow: 0 0 10px var(--neon-green); text-align: right;}
+        .ranking-list li .mode-label {
+            color: var(--neon-blue);
+            font-size: 0.75rem;
+            text-align: right;
+            text-shadow: 0 0 8px var(--neon-blue);
+        }
 
         /* 共通ボタン設定 */
+        .mode-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .mode-buttons button {
+            width: 260px;
+            text-align: center;
+        }
+
+        .ranking-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: -14px 0 18px;
+            flex-wrap: wrap;
+        }
+
+        .ranking-tabs button {
+            min-width: 104px;
+            font-size: 0.9rem !important;
+            padding: 8px 14px !important;
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.45) !important;
+        }
+
+        .ranking-tabs button.active {
+            background: var(--neon-blue) !important;
+            color: #000 !important;
+            box-shadow: 0 0 24px var(--neon-blue) !important;
+        }
+
         #overlay button {
             background: transparent;
             color: var(--neon-blue);
@@ -415,8 +587,8 @@
             .game-wrapper {
                 order: 2;
                 flex: none; 
-                height: 73vh;   
-                height: 73dvh; 
+                height: min(73vh, calc(100vh - 155px));   
+                height: min(73dvh, calc(100dvh - 155px)); 
                 align-self: center; 
                 aspect-ratio: 1 / 2; 
                 max-width: 100%; 
@@ -427,7 +599,12 @@
                 margin: 0; 
             }
             
-            canvas#tetris {
+            body.puyo-mode .game-wrapper {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.2);
+        }
+
+        canvas#tetris {
                 width: 100%;
                 height: 100%;
                 display: block;
@@ -453,12 +630,30 @@
                 display: contents; 
             }
             
-            .ctrl-btn { width: 42px; height: 42px; font-size: 1.0rem; border-width: 1px; } 
+            .ctrl-btn { width: 48px; height: 48px; font-size: 0.65rem; border-width: 1px; } 
             .ctrl-btn.large { width: 50px; height: 50px; font-size: 0.8rem; } 
-
             /* スマホ用のリザルト＆ランキングのサイズ調整 */
-            .overlay-screen h2 { font-size: 2rem; }
+            .overlay-screen h2 { font-size: 2rem; margin-bottom: 26px; }
+            .title-screen { padding: 14px; }
+            .title-panel { width: 92vw; padding: 24px 22px 22px; }
+            .title-brand { margin-bottom: 18px; }
+            .title-brand h1 { font-size: clamp(2rem, 11vw, 2.45rem); }
+            .title-brand p { font-size: 0.58rem; letter-spacing: 1.4px; }
+            .menu-title { font-size: 1rem !important; margin-bottom: 16px !important; }
+            .help-btn { top: 10px; right: 10px; width: 38px !important; height: 38px; font-size: 1.1rem !important; }
+            .audio-hint { margin-top: 12px; font-size: 0.62rem; }
             .result-details { padding: 15px 25px; font-size: 1.2rem; min-width: 200px; }
-            .ranking-list li { font-size: 1.2rem; padding: 10px 15px; }
-            #overlay button { font-size: 1.2rem; padding: 8px 20px; }
+            .ranking-list { width: 92%; max-width: 340px; }
+            .ranking-list li { grid-template-columns: 34px 1fr 58px; gap: 8px; font-size: 1.0rem; padding: 10px 12px; }
+            .ranking-list li .mode-label { font-size: 0.55rem; }
+            .mode-buttons { gap: 13px; }
+            .mode-buttons button { width: min(76vw, 240px); min-width: 0; }
+            .ranking-tabs { gap: 8px; margin: -8px 0 16px; width: 92%; }
+            .ranking-tabs button { min-width: 86px; flex: 1 1 86px; font-size: 0.72rem !important; padding: 8px 6px !important; }
+            .help-panel { width: 92vw; max-height: 86vh; padding: 22px 18px; }
+            .help-panel h2 { font-size: 1.55rem; margin-bottom: 16px; }
+            .help-content { max-height: min(48vh, 360px); max-height: min(48dvh, 360px); padding: 14px 15px; font-size: 0.9rem; }
+            .help-section-title { font-size: 0.78rem; }
+            #overlay button { font-size: 1.05rem; padding: 8px 18px; }
         }
+
