@@ -495,6 +495,47 @@
             color: #000;
         }
 
+
+        #mobile-left,
+        #mobile-right {
+            border-color: var(--neon-blue);
+            color: var(--neon-blue);
+            box-shadow: 0 0 12px rgba(0, 243, 255, 0.35);
+        }
+
+        #mobile-rotate {
+            border-color: var(--neon-yellow);
+            color: var(--neon-yellow);
+            box-shadow: 0 0 12px rgba(255, 238, 0, 0.35);
+        }
+
+        #mobile-hold {
+            border-color: var(--neon-purple);
+            color: var(--neon-purple);
+            box-shadow: 0 0 12px rgba(188, 19, 254, 0.35);
+        }
+
+        #mobile-drop {
+            border-color: var(--neon-pink);
+            color: var(--neon-pink);
+            box-shadow: 0 0 14px rgba(255, 0, 255, 0.42);
+        }
+
+        #mobile-left:active,
+        #mobile-right:active {
+            background: var(--neon-blue);
+            color: #000;
+        }
+
+        #mobile-rotate:active {
+            background: var(--neon-yellow);
+            color: #000;
+        }
+
+        #mobile-hold:active {
+            background: var(--neon-purple);
+            color: #000;
+        }
         .shake { animation: shake 0.3s cubic-bezier(.36,.07,.19,.97) both; }
         @keyframes shake {
             10%, 90% { transform: translate3d(-1px, 0, 0); }
@@ -611,27 +652,31 @@
             }
             
             .mobile-controls {
-                display: flex; 
-                flex-direction: row; 
-                justify-content: space-between; 
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
                 align-items: center;
-                gap: 0; 
-                position: relative; 
-                width: 95%; 
-                max-width: 360px; 
-                flex: none; 
-                margin-top: 5px;
-                padding: 0; 
+                gap: 0;
+                position: relative;
+                width: 98%;
+                max-width: 380px;
+                flex: none;
+                margin-top: 14px;
+                padding: 0;
                 box-sizing: border-box;
-                background-color: transparent; 
+                background-color: transparent;
             }
             
             .d-pad-row {
-                display: contents; 
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 0;
             }
             
-            .ctrl-btn { width: 48px; height: 48px; font-size: 0.65rem; border-width: 1px; } 
-            .ctrl-btn.large { width: 50px; height: 50px; font-size: 0.8rem; } 
+            .ctrl-btn { width: 50px; height: 50px; font-size: 1.05rem; border-width: 1px; flex: 0 0 auto; } 
+            .ctrl-btn.large { width: 72px; height: 50px; border-radius: 25px; font-size: 0.78rem; flex: 0 0 auto; } 
             /* スマホ用のリザルト＆ランキングのサイズ調整 */
             .overlay-screen h2 { font-size: 2rem; margin-bottom: 26px; }
             .title-screen { padding: 14px; }
@@ -656,4 +701,7 @@
             .help-section-title { font-size: 0.78rem; }
             #overlay button { font-size: 1.05rem; padding: 8px 18px; }
         }
+
+
+
 

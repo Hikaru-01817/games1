@@ -30,7 +30,6 @@
                 <h3>CONTROLS</h3>
                 <div class="control-item"><span>Move</span><span class="key-badge">←</span><span class="key-badge">→</span></div>
                 <div class="control-item"><span>Rotate</span><span class="key-badge">↑</span></div>
-                <div class="control-item"><span>Soft Drop</span><span class="key-badge">↓</span></div>
                 <div class="control-item"><span>Hard Drop</span><span class="key-badge">Space</span></div>
                 <div class="control-item"><span>Hold</span><span class="key-badge">C</span></div>
             </div>
@@ -72,20 +71,14 @@
     </div>
 
     <div class="mobile-controls">
-        <div class="d-pad-row">
+        <div class="d-pad-row mobile-control-row">
             <div id="mobile-hold" class="ctrl-btn" onpointerdown="startAction('hold', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">HOLD</div>
+            <div id="mobile-left" class="ctrl-btn" onpointerdown="startAction('left', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">&larr;</div>
+            <div id="mobile-drop" class="ctrl-btn large" onpointerdown="startAction('drop', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">DROP</div>
+            <div id="mobile-right" class="ctrl-btn" onpointerdown="startAction('right', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">&rarr;</div>
             <div id="mobile-rotate" class="ctrl-btn" onpointerdown="startAction('rotate', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">ROT</div>
         </div>
-        <div class="d-pad-row">
-            <div id="mobile-left" class="ctrl-btn" onpointerdown="startAction('left', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">LEFT</div>
-            <div id="mobile-down" class="ctrl-btn" onpointerdown="startAction('down', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">DOWN</div>
-            <div id="mobile-right" class="ctrl-btn" onpointerdown="startAction('right', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">RIGHT</div>
-        </div>
-        <div class="d-pad-row">
-            <div id="mobile-drop" class="ctrl-btn large" onpointerdown="startAction('drop', event)" onpointerup="stopAction(event)" onpointerleave="stopAction(event)" oncontextmenu="return false;">DROP</div>
-        </div>
     </div>
-
     <div id="overlay">
         <div id="screen-start" class="overlay-screen title-screen" style="display: flex;">
             <div class="title-panel">
@@ -139,6 +132,10 @@
 
 </body>
 </html>
+
+
+
+
 
 
 

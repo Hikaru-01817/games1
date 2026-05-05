@@ -167,7 +167,7 @@
 
             executeAction(action);
 
-            if (action === 'left' || action === 'right' || action === 'down') {
+            if (action === 'left' || action === 'right') {
                 touchTimeout = setTimeout(() => {
                     touchInterval = setInterval(() => {
                         executeAction(action);
@@ -195,7 +195,6 @@
                 case 'left': playerMove(-1); break;
                 case 'right': playerMove(1); break;
                 case 'rotate': playerRotate(1); break;
-                case 'down': playerDrop(); break;
                 case 'drop': playerHardDrop(); break;
                 case 'hold': playerHold(); break;
             }
@@ -569,7 +568,6 @@
             if (currentGame === 'puyo') {
                 if (event.keyCode === 37) { puyoMove(-1); }
                 else if (event.keyCode === 39) { puyoMove(1); }
-                else if (event.keyCode === 40) { puyoDrop(); }
                 else if (event.keyCode === 38) { puyoRotate(1); }
                 else if (event.keyCode === 32) { puyoHardDrop(); }
                 else if (event.keyCode === 67) { puyoHold(); }
@@ -578,7 +576,6 @@
 
             if (event.keyCode === 37) { playerMove(-1); } 
             else if (event.keyCode === 39) { playerMove(1); } 
-            else if (event.keyCode === 40) { playerDrop(); } 
             else if (event.keyCode === 38) { playerRotate(1); } 
             else if (event.keyCode === 32) { playerHardDrop(); } 
             else if (event.keyCode === 67) { playerHold(); }
@@ -601,14 +598,14 @@
             tetris: {
                 title: 'TETRIS MODE',
                 description: '&#x843D;&#x3061;&#x3066;&#x304F;&#x308B;&#x30D6;&#x30ED;&#x30C3;&#x30AF;&#x3092;&#x5DE6;&#x53F3;&#x306B;&#x52D5;&#x304B;&#x3057;&#x3001;&#x56DE;&#x8EE2;&#x3055;&#x305B;&#x306A;&#x304C;&#x3089;&#x6A2A;&#x4E00;&#x5217;&#x3092;&#x305D;&#x308D;&#x3048;&#x3066;&#x6D88;&#x3057;&#x3066;&#x3044;&#x304F;&#x30E2;&#x30FC;&#x30C9;&#x3067;&#x3059;&#x3002;&#x30E9;&#x30A4;&#x30F3;&#x3092;&#x6D88;&#x3059;&#x307B;&#x3069;&#x30B9;&#x30B3;&#x30A2;&#x304C;&#x5897;&#x3048;&#x3001;&#x4E00;&#x5B9A;&#x6570;&#x306E;&#x30E9;&#x30A4;&#x30F3;&#x3092;&#x6D88;&#x3059;&#x3068;&#x30EC;&#x30D9;&#x30EB;&#x304C;&#x4E0A;&#x304C;&#x308A;&#x307E;&#x3059;&#x3002;',
-                pc: ['&larr; / &rarr;&#xFF1A;&#x5DE6;&#x53F3;&#x79FB;&#x52D5;', '&uarr;&#xFF1A;&#x56DE;&#x8EE2;', '&darr;&#xFF1A;&#x30BD;&#x30D5;&#x30C8;&#x30C9;&#x30ED;&#x30C3;&#x30D7;', 'Space&#xFF1A;&#x30CF;&#x30FC;&#x30C9;&#x30C9;&#x30ED;&#x30C3;&#x30D7;', 'C&#xFF1A;&#x30DB;&#x30FC;&#x30EB;&#x30C9;', 'P&#xFF1A;&#x4E00;&#x6642;&#x505C;&#x6B62;'],
-                mobile: ['LEFT&#xFF1A;&#x5DE6;&#x79FB;&#x52D5;', 'RIGHT&#xFF1A;&#x53F3;&#x79FB;&#x52D5;', 'ROT&#xFF1A;&#x56DE;&#x8EE2;', 'DOWN&#xFF1A;&#x4E0B;&#x79FB;&#x52D5;', 'DROP&#xFF1A;&#x4E00;&#x6C17;&#x306B;&#x843D;&#x4E0B;', 'HOLD&#xFF1A;&#x30DB;&#x30FC;&#x30EB;&#x30C9;']
+                pc: ['&larr; / &rarr;&#xFF1A;&#x5DE6;&#x53F3;&#x79FB;&#x52D5;', '&uarr;&#xFF1A;&#x56DE;&#x8EE2;', 'Space&#xFF1A;&#x30CF;&#x30FC;&#x30C9;&#x30C9;&#x30ED;&#x30C3;&#x30D7;', 'C&#xFF1A;&#x30DB;&#x30FC;&#x30EB;&#x30C9;', 'P&#xFF1A;&#x4E00;&#x6642;&#x505C;&#x6B62;'],
+                mobile: ['&larr;&#xFF1A;&#x5DE6;&#x79FB;&#x52D5;', '&rarr;&#xFF1A;&#x53F3;&#x79FB;&#x52D5;', 'ROT&#xFF1A;&#x56DE;&#x8EE2;', 'DROP&#xFF1A;&#x4E00;&#x6C17;&#x306B;&#x843D;&#x4E0B;', 'HOLD&#xFF1A;&#x30DB;&#x30FC;&#x30EB;&#x30C9;']
             },
             puyo: {
                 title: 'PUYO MODE',
                 description: '2&#x500B;1&#x7D44;&#x3067;&#x843D;&#x3061;&#x3066;&#x304F;&#x308B;&#x3077;&#x3088;&#x3092;&#x64CD;&#x4F5C;&#x3057;&#x3001;&#x540C;&#x3058;&#x8272;&#x306E;&#x3077;&#x3088;&#x3092;&#x4E0A;&#x4E0B;&#x5DE6;&#x53F3;&#x306B;4&#x3064;&#x4EE5;&#x4E0A;&#x3064;&#x306A;&#x3052;&#x3066;&#x6D88;&#x3057;&#x3066;&#x3044;&#x304F;&#x30E2;&#x30FC;&#x30C9;&#x3067;&#x3059;&#x3002;&#x3077;&#x3088;&#x304C;&#x6D88;&#x3048;&#x308B;&#x3068;&#x4E0A;&#x306E;&#x3077;&#x3088;&#x304C;&#x843D;&#x4E0B;&#x3057;&#x3001;&#x9023;&#x7D9A;&#x3067;&#x6D88;&#x3048;&#x308B;&#x3068;&#x9023;&#x9396;&#x306B;&#x306A;&#x308A;&#x307E;&#x3059;&#x3002;',
-                pc: ['&larr; / &rarr;&#xFF1A;&#x5DE6;&#x53F3;&#x79FB;&#x52D5;', '&uarr;&#xFF1A;&#x56DE;&#x8EE2;', '&darr;&#xFF1A;&#x4E0B;&#x79FB;&#x52D5;', 'Space&#xFF1A;&#x4E00;&#x6C17;&#x306B;&#x843D;&#x4E0B;', 'C&#xFF1A;&#x30DB;&#x30FC;&#x30EB;&#x30C9;', 'P&#xFF1A;&#x4E00;&#x6642;&#x505C;&#x6B62;'],
-                mobile: ['LEFT&#xFF1A;&#x5DE6;&#x79FB;&#x52D5;', 'RIGHT&#xFF1A;&#x53F3;&#x79FB;&#x52D5;', 'ROT&#xFF1A;&#x56DE;&#x8EE2;', 'DOWN&#xFF1A;&#x4E0B;&#x79FB;&#x52D5;', 'DROP&#xFF1A;&#x4E00;&#x6C17;&#x306B;&#x843D;&#x4E0B;', 'HOLD&#xFF1A;&#x30DB;&#x30FC;&#x30EB;&#x30C9;']
+                pc: ['&larr; / &rarr;&#xFF1A;&#x5DE6;&#x53F3;&#x79FB;&#x52D5;', '&uarr;&#xFF1A;&#x56DE;&#x8EE2;', 'Space&#xFF1A;&#x4E00;&#x6C17;&#x306B;&#x843D;&#x4E0B;', 'C&#xFF1A;&#x30DB;&#x30FC;&#x30EB;&#x30C9;', 'P&#xFF1A;&#x4E00;&#x6642;&#x505C;&#x6B62;'],
+                mobile: ['&larr;&#xFF1A;&#x5DE6;&#x79FB;&#x52D5;', '&rarr;&#xFF1A;&#x53F3;&#x79FB;&#x52D5;', 'ROT&#xFF1A;&#x56DE;&#x8EE2;', 'DROP&#xFF1A;&#x4E00;&#x6C17;&#x306B;&#x843D;&#x4E0B;', 'HOLD&#xFF1A;&#x30DB;&#x30FC;&#x30EB;&#x30C9;']
             }
         };
 
@@ -837,8 +834,9 @@
         const PUYO_COLS = 6;
         const PUYO_ROWS = 13;
         const PUYO_VISIBLE_TOP = 1;
-        const PUYO_OFFSET_X = 2;
-        const PUYO_OFFSET_Y = 4;
+        const PUYO_OFFSET_X = 0;
+        const PUYO_OFFSET_Y = 0;
+        const PUYO_DRAW_SCALE = COLS / PUYO_COLS;
         const PUYO_COLORS = [null, '#ff4d6d', '#ffe66d', '#4dff88', '#4dabff', '#c77dff'];
         const PUYO_DIRS = [{x: 0, y: -1}, {x: 1, y: 0}, {x: 0, y: 1}, {x: -1, y: 0}];
 
@@ -1132,6 +1130,7 @@
             }
 
             context.strokeStyle = 'rgba(0, 255, 65, 0.45)';
+            context.scale(PUYO_DRAW_SCALE, PUYO_DRAW_SCALE);
             context.lineWidth = 0.05;
             context.strokeRect(PUYO_OFFSET_X, PUYO_OFFSET_Y, PUYO_COLS, PUYO_ROWS - PUYO_VISIBLE_TOP);
             context.strokeStyle = 'rgba(0, 243, 255, 0.12)';
@@ -1181,7 +1180,6 @@
                 case 'left': puyoMove(-1); break;
                 case 'right': puyoMove(1); break;
                 case 'rotate': puyoRotate(1); break;
-                case 'down': puyoDrop(); break;
                 case 'drop': puyoHardDrop(); break;
                 case 'hold': puyoHold(); break;
             }
@@ -1202,6 +1200,9 @@
         configureModeUi();
         context.fillStyle = '#000';
         context.fillRect(0, 0, canvas.width, canvas.height);
+
+
+
 
 
 
